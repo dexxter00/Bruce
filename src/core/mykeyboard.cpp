@@ -294,11 +294,12 @@ String keyboard(String mytext, int maxSize, String msg) {
       if(y<0 || y2<0) {
         #if FM>1 // Normal keyboard size
           #define KBLH 20
-          int ofs[4][3] = {
+          int ofs[5][3] = {
             {7  , 46, 18 },
             {55 , 50, 64 },
             {107, 50, 115},
             {159, 74, 168},
+            {168, 67, 177},
           };
         #else // small keyboard size, for small letters (smaller screen, like Marauder Mini and others ;) )
           #define KBLH 10
@@ -307,6 +308,7 @@ String keyboard(String mytext, int maxSize, String msg) {
             {27, 25, 30},
             {52, 25, 55},
             {77, 50, 80},
+            {72, 50, 80},
           };
         #endif
         tft.fillRect(0,1,tftWidth,22,bruceConfig.bgColor);
@@ -314,6 +316,7 @@ String keyboard(String mytext, int maxSize, String msg) {
         tft.drawRect(ofs[1][0],2,ofs[1][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));      // CAP Rectangle
         tft.drawRect(ofs[2][0],2,ofs[2][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));     // DEL Rectangle
         tft.drawRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));     // SPACE Rectangle
+        tft.drawRect(ofs[4][0],2,ofs[4][1],KBLH,getComplementaryColor2(bruceConfig.bgColor));     // CNCL Rectangle
         tft.drawRect(3,KBLH+12,tftWidth-3,KBLH,bruceConfig.priColor); // mystring Rectangle
 
 
@@ -332,9 +335,13 @@ String keyboard(String mytext, int maxSize, String msg) {
         else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
         tft.drawString("DEL", ofs[2][2], 4);
 
-        if(x>2 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
+        if(x==3 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[3][0],2,ofs[3][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
         else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
         tft.drawString("SPACE", ofs[3][2], 4);
+
+        if(x>3 && y==-1) { tft.setTextColor(bruceConfig.bgColor, getComplementaryColor2(bruceConfig.bgColor)); tft.fillRect(ofs[4][0],2,ofs[4][1],KBLH,getComplementaryColor2(bruceConfig.bgColor)); }
+        else tft.setTextColor(getComplementaryColor2(bruceConfig.bgColor), bruceConfig.bgColor);
+        tft.drawString("CNCL", ofs[4][2], 4);
       }
 
       tft.setTextSize(FP);
