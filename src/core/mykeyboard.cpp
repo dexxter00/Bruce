@@ -299,7 +299,7 @@ String keyboard(String mytext, int maxSize, String msg) {
             {55 , 50, 64 },
             {107, 50, 115},
             {159, 74, 168},
-            {168, 67, 177},
+            {235, 60, 244},
           };
         #else // small keyboard size, for small letters (smaller screen, like Marauder Mini and others ;) )
           #define KBLH 10
@@ -507,7 +507,7 @@ String keyboard(String mytext, int maxSize, String msg) {
       if(check(NextPress))
       {
         if(check(EscPress)) { y++; }
-        else if ((x >= 3 && y < 0) || x == 11) { y++; x = 0; } 
+        else if ((x >= 4 && y < 0) || x == 11) { y++; x = 0; } 
         else x++;
 
         if (y > 3) y = -1;
@@ -515,12 +515,15 @@ String keyboard(String mytext, int maxSize, String msg) {
       }
       /* UP Btn to move in Y axis (Downwards) */
       if(check(PrevPress)) {
-        if(check(EscPress)) { y--; }
+        if(check(EscPress)) { 
+          y--;
+          if(y==-1 && x>4) x=4;
+        }
         else if(x==0) { y--; x--; }
         else x--;
 
         if(y<-1) { y=3; x=11; }
-        else if(y<0 && x<0) x=3;
+        else if(y<0 && x<0) x=4;
         else if (x<0) x=11;
         
         redraw = true;
@@ -594,7 +597,8 @@ String keyboard(String mytext, int maxSize, String msg) {
           cX=tft.getCursorX();
           cY=tft.getCursorY();
         }
-        else if(x>2 && y==-1 && mytext.length()<maxSize) mytext += " ";
+        else if(x==3 && y==-1 && mytext.length()<maxSize) mytext += " ";
+        else if(x>3 && y==-1) { mytext=""; return mytext; }
         else if(y>-1 && mytext.length()<maxSize) {
           ADD:
           mytext += keys[y][x][z];
